@@ -1,0 +1,100 @@
+package javaProject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class ProductManagement {
+    public static void main(String[] args) {
+        ArrayList<Product> productList = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        productList.add(new Product("P101", "Wireless Earbuds", 1500));
+        productList.add(new Product("P102", "Gaming Laptop", 85000));
+        productList.add(new Product("P103", "Smartwatch", 5000));
+        productList.add(new Product("P104", "Bluetooth Speaker", 2000));
+        productList.add(new Product("P105", "4K TV", 45000));
+
+        do {
+            System.out.println("\n=== Product Management System ===");
+            System.out.println("Type 1 to Add Product");
+            System.out.println("Type 2 to Display Products");
+            System.out.println("Type 3 to Search Product by ID");
+            System.out.println("Type 4 to Remove Product by ID");
+            System.out.println("Type 5 to Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Product ID: ");
+                    String id = scanner.nextLine();
+                    System.out.print("Enter Product Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Product Price: ");
+                    double price = scanner.nextDouble();
+                    scanner.nextLine();
+
+                    productList.add(new Product(id, name, price));
+                    System.out.println("Product added successfully!");
+                    break;
+
+                case 2:
+                    if (productList.isEmpty()) {
+                        System.out.println("No products available.");
+                    } else {
+                        Collections.sort(productList);
+                        System.out.println("\nList of Products:");
+                        for (Product product : productList) {
+                            System.out.println(product);
+                        }
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Enter Product ID to search: ");
+                    String searchId = scanner.nextLine();
+                    boolean found = false;
+                    for (Product product : productList) {
+                        if (product.getId().equalsIgnoreCase(searchId)) {
+                            System.out.println("Product found: " + product);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("Product with ID " + searchId + " not found.");
+                    }
+                    break;
+
+                case 4:
+                    System.out.print("Enter Product ID to remove: ");
+                    String removeId = scanner.nextLine();
+                    boolean removed = false;
+                    for (int i = 0; i < productList.size(); i++) {
+                        if (productList.get(i).getId().equalsIgnoreCase(removeId)) {
+                            productList.remove(i);
+                            System.out.println("Product with ID " + removeId + " removed successfully!");
+                            removed = true;
+                            break;
+                        }
+                    }
+                    if (!removed) {
+                        System.out.println("Product with ID " + removeId + " not found.");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Exiting the system. Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        } while (choice != 5);
+
+        scanner.close();
+    }
+}
